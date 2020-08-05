@@ -2,9 +2,9 @@
 
 // bithacks
 inline int abs(int v) { return (v + (v >> 31)) ^ (v >> 31); }
-inline int clz(v) { return __builtin_clz(v); }
-inline int ctz(v) { return __builtin_ctz(v); }
-inline int log(v) { return 32 - clz(v); }
+inline int clz(int v) { return __builtin_clz(v); }
+inline int ctz(int v) { return __builtin_ctz(v); }
+inline int log(int v) { return 32 - clz(v); }
 
 // binary gcd algorithm
 inline int gcd(int u, int v) {
