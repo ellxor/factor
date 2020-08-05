@@ -76,7 +76,7 @@ int main(int argc, char **argv)
 
     for (i = 0; i < z; ++i) {
       printf("2 ");
-      n >>=1;
+      n >>= 1;
     }
 
     while (n > 1) {
