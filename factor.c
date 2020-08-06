@@ -73,10 +73,10 @@ int main(int argc, char **argv)
     printf("%d: ", n);
 
     z = ctz(n);
+    n >>= z;
 
     for (i = 0; i < z; ++i) {
       printf("2 ");
-      n >>= 1;
     }
 
     while (n > 1) {
