@@ -1,2 +1,2 @@
 @echo off
-clang factor.c -o factor.exe -Ofast -fno-builtin
+gcc factor.c -o factor.exe -Ofast -fno-builtin
