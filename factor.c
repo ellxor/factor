@@ -1,14 +1,14 @@
 #include <stdio.h>
 
 // bithacks
-inline int abs(int v) { return (v + (v >> 31)) ^ (v >> 31); }
-inline int clz(int v) { return __builtin_clz(v); }
-inline int ctz(int v) { return __builtin_ctz(v); }
-inline int log(int v) { return 32 - clz(v); }
+inline long abs(long v) { return (v + (v >> 63)) ^ (v >> 63); }
+inline long clz(long v) { return __builtin_clzll(v); }
+inline long ctz(long v) { return __builtin_ctzll(v); }
+inline long log(long v) { return 64 - clz(v); }
 
 // binary gcd algorithm
-inline int gcd(int u, int v) {
-  unsigned int shift;
+inline long gcd(long u, long v) {
+  unsigned long shift;
   if (u == 0) return v;
   if (v == 0) return u;
 
@@ -17,7 +17,7 @@ inline int gcd(int u, int v) {
   do {
       v >>= ctz(v);
       if (u > v) {
-          int t = v;
+          long t = v;
           v = u;
           u = t;
       }
@@ -27,9 +27,9 @@ inline int gcd(int u, int v) {
 }
 
 // pollard rho algorithm
-inline int pollardRho(int n) {
-  int i, factor;
-  long int x = 2, y = 2, z = 1;
+inline long pollardRho(long n) {
+  long i, factor;
+  long x = 2, y = 2, z = 1;
 
   while (z) {
     y = x;
@@ -46,8 +46,8 @@ inline int pollardRho(int n) {
 }
 
 
-inline int factor(int n) {
-  int i, l;
+inline long factor(long n) {
+  long i, l;
 
   l = log(n);
   l *= l;
@@ -66,11 +66,10 @@ int main(int argc, char **argv)
 {
   for (int index = 1; index < argc; ++index)
   {
-    int n, f, i, z;
+    long n, f, i, z;
 
-    sscanf(argv[index], "%d ", &n);
-
-    printf("%d: ", n);
+    sscanf(argv[index], "%ld ", &n);
+    printf("%ld: ", n);
 
     z = ctz(n);
     n >>= z;
@@ -84,7 +83,7 @@ int main(int argc, char **argv)
       n /= f;
 
       if (f > n && n > 1) {
-        int t = f;
+        long t = f;
         f = n;
         n = t;
       }
