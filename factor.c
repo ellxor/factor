@@ -88,7 +88,7 @@ int main(int argc, char **argv)
         n = t;
       }
 
-      printf("%d ", f);
+      printf("%ld ", f);
     }
 
     printf("\n");
