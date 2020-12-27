@@ -7,7 +7,7 @@ inline long ctz(long v) { return __builtin_ctzll(v); }
 inline long log(long v) { return 64 - clz(v); }
 
 // binary gcd algorithm
-inline long gcd(long u, long v) {
+long gcd(long u, long v) {
   unsigned long shift;
   if (u == 0) return v;
   if (v == 0) return u;
@@ -27,7 +27,7 @@ inline long gcd(long u, long v) {
 }
 
 // pollard rho algorithm
-inline long pollardRho(long n) {
+long pollardRho(long n) {
   long i, factor;
   long x = 2, y = 2, z = 1;
 
@@ -46,7 +46,7 @@ inline long pollardRho(long n) {
 }
 
 // factor up to log(n)**2 then use pollard rho
-inline long factor(long n) {
+long factor(long n) {
   long i, l;
 
   l = log(n);
