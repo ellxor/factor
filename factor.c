@@ -45,20 +45,34 @@ inline long pollardRho(long n) {
   return n;
 }
 
-
+// factor up to log(n)**2 then use pollard rho
 inline long factor(long n) {
   long i, l;
 
   l = log(n);
   l *= l;
 
-  for (i = 3; i < l; i += 2) {
+  for (i = 3; i <= l; i += 2) {
     if (n % i == 0) {
       return i;
     }
   }
 
   return pollardRho(n);
+}
+
+// insertion sort
+void sort(int len, long arr[len])
+{
+    int i, j;
+
+    for (i = 1; i < len; i++) {
+        long x = arr[i];
+        for (j = i-1; j >=0 && arr[j] > x; j--) {
+            arr[j+1] = arr[j];
+        }
+        arr[j+1] = x;
+    }
 }
 
 
@@ -71,6 +85,7 @@ int main(int argc, char **argv)
     sscanf(argv[index], "%ld ", &n);
     printf("%ld: ", n);
 
+    // remove trivial factors of 2
     z = ctz(n);
     n >>= z;
 
@@ -78,19 +93,20 @@ int main(int argc, char **argv)
       printf("2 ");
     }
 
-    while (n > 1) {
+    // find all other factors
+    long factors[100];
+    int len = 0;
+
+    while (n != 1) {
       f = factor(n);
       n /= f;
-
-      if (f > n && n > 1) {
-        long t = f;
-        f = n;
-        n = t;
-      }
-
-      printf("%ld ", f);
+      factors[len++] = f;
     }
 
+    // display factors in ascending order
+    sort(len, factors);
+    for (i = 0; i < len; i++)
+        printf("%ld ", factors[i]);
     printf("\n");
   }
 
