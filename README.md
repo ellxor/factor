@@ -5,8 +5,8 @@ For an integer input n, the program;
 - removes all factors of two using bitshifts,
 - checks for small prime factors up to log(n)^2,
 - uses [Pollard's rho algorithm](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm) to find a larger factor using:
-    - [Brent's cycle detection algorithm](https://en.wikipedia.org/wiki/Cycle_detection#Brent.27s_algorithm)
-    - [Binary GCD Algorithm](https://en.wikipedia.org/wiki/Binary_GCD_algorithm),
+    - [Brent's Cycle Detection algorithm](https://en.wikipedia.org/wiki/Cycle_detection#Brent.27s_algorithm)
+    - [Binary GCD algorithm](https://en.wikipedia.org/wiki/Binary_GCD_algorithm),
 - recurses back to step 2 if the number is not fully factorised,
 - sorts the full list of factors using [insertion sort](https://en.wikipedia.org/wiki/Insertion_sort),
 - and finally, displays the factors to the terminal.
