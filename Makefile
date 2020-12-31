@@ -1,3 +1,4 @@
-CC=~/.zig/zig cc
+CC = clang
+CFLAGS = -O3 -s -fno-builtin
 
-default:; $(CC) factor.c -o factor.exe -O3 -fno-builtin; strip factor.exe
+default:; $(CC) factor.c -o factor.exe $(CFLAGS)
