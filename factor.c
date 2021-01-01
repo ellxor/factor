@@ -1,31 +1,29 @@
 #import <stdio.h>
 #import <string.h>
 
-// bithacks
 inline long abs(long v) { return (v + (v >> 63)) ^ (v >> 63); }
 inline long clz(long v) { return __builtin_clzll(v); }
 inline long ctz(long v) { return __builtin_ctzll(v); }
 inline long log(long v) { return 64 - clz(v); }
+inline long max(long x, long y) { return x ^ ((x ^ y) & -(x < y)); }
+inline long min(long x, long y) { return y ^ ((x ^ y) & -(x < y)); }
 
-// binary gcd algorithm
 long gcd(long u, long v) {
-  unsigned long shift;
   if (u == 0)
     return v;
   if (v == 0)
     return u;
 
-  shift = ctz(u | v);
+  long w, shift = ctz(u | v);
   u >>= ctz(u);
-  do {
+
+  while (v) {
     v >>= ctz(v);
-    if (u > v) {
-      long t = v;
-      v = u;
-      u = t;
-    }
-    v = v - u;
-  } while (v);
+    w = max(u, v);
+    u = min(u, v);
+    v = w - u;
+  }
+
   return u << shift;
 }
 
@@ -35,9 +33,9 @@ long powmod(long base, long exp, long mod) {
   long res = 1;
 
   while (exp != 0) {
-    long k = (exp & 1) ? base : 1;
-    res = (int128) res * k % mod;
-    base = (int128) base * base % mod;
+    if (exp & 1)
+      res = (int128)res * k % mod;
+    base = (int128)base * base % mod;
     exp >>= 1;
   }
 
@@ -47,24 +45,21 @@ long powmod(long base, long exp, long mod) {
 int check_composite(long n, long a, long d, int s) {
   long x = powmod(a, d, n);
 
-  if (x == 1 || x == n - 1) {
+  if (x == 1 || x == n - 1)
     return 0;
-  }
 
   for (int r = 1; r < s; r++) {
-    x = (int128) x * x % n;
-    if (x == n - 1) {
+    x = (int128)x * x % n;
+    if (x == n - 1)
       return 0;
-    }
   }
 
   return 1;
 }
 
-const long primes[] = {2,3,5,7,11,13,17,19,23,29,31,37};
+const long primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
 const int primec = sizeof primes / sizeof primes[0];
 
-// deterministic mille rabin primality test
 int miller_rabin(long n) {
   int r = ctz(n - 1);
   long d = (n - 1) >> r;
@@ -84,16 +79,15 @@ long pollard_rho(long n) {
     return n;
   }
 
-  long i, factor;
   long x = 2, y = 2, z = 1;
 
   while (z) {
     y = x;
-    for (i = 0; i < z; ++i) {
+    for (int i = 0; i < z; ++i) {
       x = (x * x + 1) % n;
-      if ((factor = gcd(abs(x - y), n)) > 1) {
+      long factor = gcd(abs(x - y), n);
+      if (factor > 1)
         return factor;
-      }
     }
     z <<= 1;
   }
@@ -101,7 +95,6 @@ long pollard_rho(long n) {
   return n;
 }
 
-// insertion sort
 void sort(int len, long arr[len]) {
   for (int i = 1, j; i < len; i++) {
     long x = arr[i];
