@@ -28,8 +28,61 @@ long gcd(long u, long v) {
   return u << shift;
 }
 
+typedef __int128_t int128;
+
+long powmod(long base, long exp, long mod) {
+  long res = 1;
+
+  while (exp != 0) {
+    long k = (exp & 1) ? base : 1;
+    res = (int128) res * k % mod;
+    base = (int128) base * base % mod;
+    exp >>= 1;
+  }
+
+  return res;
+}
+
+int check_composite(long n, long a, long d, int s) {
+  long x = powmod(a, d, n);
+
+  if (x == 1 || x == n - 1) {
+    return 0;
+  }
+
+  for (int r = 1; r < s; r++) {
+    x = (int128) x * x % n;
+    if (x == n - 1) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
+const long primes[] = {2,3,5,7,11,13,17,19,23,29,31,37};
+const int primec = sizeof primes / sizeof primes[0];
+
+// deterministic mille rabin primality test
+int miller_rabin(long n) {
+  int r = ctz(n - 1);
+  long d = (n - 1) >> r;
+
+  for (int i = 0; i < primec; i++) {
+    if (check_composite(n, primes[i], d, r)) {
+      return 0;
+    }
+  }
+
+  return 1;
+}
+
 // pollard rho algorithm
 long pollard_rho(long n) {
+  if (miller_rabin(n)) {
+    return n;
+  }
+
   long i, factor;
   long x = 2, y = 2, z = 1;
 
