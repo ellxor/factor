@@ -1,4 +1,5 @@
 #import <stdio.h>
+#import <string.h>
 
 // bithacks
 inline long abs(long v) { return (v + (v >> 63)) ^ (v >> 63); }
@@ -114,8 +115,24 @@ void sort(int len, long arr[len]) {
 int main(int argc, char **argv) {
   for (int index = 1; index < argc; ++index) {
     long n;
-    sscanf(argv[index], "%ld ", &n);
+    sscanf(argv[index], "%ld", &n);
+
+    // check valid input
+    char buffer[100];
+    sprintf(buffer, "%ld", n);
+
+    if (strcmp(buffer, argv[index]) != 0) {
+      printf("`%s` is not a valid 64-bit base-10 integer\n");
+      continue;
+    }
+
     printf("%ld: ", n);
+
+    // check input is >= 1
+    if (n < 1) {
+      printf("input must be > 0\n");
+      continue;
+    }
 
     // remove trivial factors of 2
     int z = ctz(n);
