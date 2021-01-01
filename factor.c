@@ -34,7 +34,7 @@ long powmod(long base, long exp, long mod) {
 
   while (exp != 0) {
     if (exp & 1)
-      res = (int128)res * k % mod;
+      res = (int128)res * base % mod;
     base = (int128)base * base % mod;
     exp >>= 1;
   }
