@@ -136,8 +136,9 @@ int main(int argc, char **argv) {
     }
 
     // remove trivial factors up to log(n)**2
-    int l = log(n);
-    for (long f = 3; f < l * l && n > 1; f += 2) {
+    int limit = log(n) * log(n);
+
+    for (long f = 3; f < limit && n > 1; f += 2) {
       while (n % f == 0) {
         n /= f;
         printf("%ld ", f);
