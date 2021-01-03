@@ -137,11 +137,10 @@ int main(int argc, char **argv) {
 
     // remove trivial factors up to log(n)**2
     int l = log(n);
-    for (long f = 3; f < l * l; f += 2) {
+    for (long f = 3; f < l * l && n > 1; f += 2) {
       while (n % f == 0) {
         n /= f;
         printf("%ld ", f);
-        l = log(n);
       }
     }
 
