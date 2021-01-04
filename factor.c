@@ -115,10 +115,23 @@ int main(int argc, char **argv) {
     sprintf(buffer, "%ld", n);
 
     // remove leading zeros from number
-    while (argv[index][0] == '0') argv[index]++;
+    while (argv[index][0] == '0')
+      argv[index]++;
 
     if (strcmp(buffer, argv[index]) != 0) {
-      printf("`%s` is not a valid integer: ");
+      printf("`%s`: ", argv[index]);
+
+      for (int i = 0; argv[index][i] != 0; i++) {
+        char c = argv[index][i];
+        if (!('0' <= c && c <= '9')) {
+          printf("invalid digit `%c`\n", c);
+          goto end;
+        }
+      }
+
+      printf("overflows 64-bits\n");
+
+    end:
       continue;
     }
 
