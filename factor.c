@@ -114,8 +114,11 @@ int main(int argc, char **argv) {
     char buffer[100];
     sprintf(buffer, "%ld", n);
 
+    // remove leading zeros from number
+    while (argv[index][0] == '0') argv[index]++;
+
     if (strcmp(buffer, argv[index]) != 0) {
-      printf("`%s` is not a valid 64-bit base-10 integer\n");
+      printf("`%s` is not a valid integer: ");
       continue;
     }
 
