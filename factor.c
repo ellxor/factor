@@ -138,16 +138,15 @@ long parse(char argv[]) {
 int factor(long n, long factors[]) {
   int len = 0;
 
+  for (int i = 0; i < ctz(n); i++) {
+    factors[len++] = 2;
+    n >>= 1;
+  }
+
   if (miller_rabin(n)) {
     factors[len++] = n;
     return len;
   }
-
-  for (int i = 0; i < ctz(n); i++) {
-    factors[len++] = 2;
-  }
-
-  n >>= ctz(n);
 
   int limit = log(n) * log(n) * log(n);
 
