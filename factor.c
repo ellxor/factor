@@ -80,18 +80,19 @@ int miller_rabin(long n) {
 }
 
 long pollard_rho(long n) {
-  long x = 2, y = 2, z = 1;
+  long x = 2;
 
-  while (z) {
-    y = x;
+  for (int z = 1; z != 0; z <<= 1) {
+    long y = x;
+
     for (int i = 0; i < z; ++i) {
       x = ((int128)x * x + 1) % n;
       long factor = gcd(labs(x - y), n);
+
       if (factor > 1) {
         return factor;
       }
     }
-    z <<= 1;
   }
 
   return n;
@@ -100,6 +101,7 @@ long pollard_rho(long n) {
 void sort(int len, long arr[len]) {
   for (int i = 1, j; i < len; i++) {
     long x = arr[i];
+
     for (j = i - 1; j >= 0 && arr[j] > x; j--) {
       arr[j + 1] = arr[j];
     }
