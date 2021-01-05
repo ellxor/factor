@@ -143,6 +143,12 @@ int main(int argc, char *argv[argc]) {
       continue;
     }
 
+    // skip primes
+    if (miller_rabin(n)) {
+      printf("%ld\n", n);
+      continue;
+    }
+
     // remove trivial factors of 2
     int z = ctz(n);
     n >>= z;
@@ -151,8 +157,8 @@ int main(int argc, char *argv[argc]) {
       printf("2 ");
     }
 
-    // remove trivial factors up to log(n)**4
-    int lg = log(n), limit = l * l * l * l; 
+    // remove trivial factors up to log(n)**3
+    int limit = log(n) * log(n) * log(n);
 
     for (long f = 3; f < limit && n > 1; f += 2) {
       while (n % f == 0) {

@@ -3,7 +3,7 @@ This project is a recreation of the [factor command on the linux terminal](https
 
 For an integer input n, the program;
 - removes all factors of 2 using bitshifts,
-- checks for small prime factors up to log(n)^4,
+- checks for small prime factors up to log(n)^3,
 - checks if n is prime using a deterministic [Miller Rabin](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test) variant.
 - uses [Pollard's rho algorithm](https://en.wikipedia.org/wiki/Pollard%27s_rho_algorithm) to find a larger factor using:
     - [Brent's cycle detection algorithm](https://en.wikipedia.org/wiki/Cycle_detection#Brent.27s_algorithm)
