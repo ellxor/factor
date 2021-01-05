@@ -151,13 +151,18 @@ int main(int argc, char *argv[argc]) {
       printf("2 ");
     }
 
-    // remove trivial factors up to log(n)**2
-    int limit = log(n) * log(n);
+    // remove trivial factors up to log(n)**4
+    int lg = log(n), limit = l * l * l * l; 
 
     for (long f = 3; f < limit && n > 1; f += 2) {
       while (n % f == 0) {
         n /= f;
         printf("%ld ", f);
+
+        if (miller_rabin(n)) {
+          printf("%ld", n);
+          n = 1;
+        }
       }
     }
 
