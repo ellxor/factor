@@ -1,7 +1,8 @@
+#import <limits.h>
 #import <stdio.h>
+#import <stdlib.h>
 #import <string.h>
 
-inline long abs(long v) { return (v + (v >> 63)) ^ (v >> 63); }
 inline long clz(long v) { return __builtin_clzll(v); }
 inline long ctz(long v) { return __builtin_ctzll(v); }
 inline long log(long v) { return 64 - clz(v); }
@@ -9,10 +10,8 @@ inline long max(long x, long y) { return x ^ ((x ^ y) & -(x < y)); }
 inline long min(long x, long y) { return y ^ ((x ^ y) & -(x < y)); }
 
 long gcd(long u, long v) {
-  if (u == 0)
-    return v;
-  if (v == 0)
-    return u;
+  if (u == 0) return v;
+  if (v == 0) return u;
 
   long w, shift = ctz(u | v);
   u >>= ctz(u);
@@ -33,8 +32,9 @@ long powmod(long base, long exp, long mod) {
   long res = 1;
 
   while (exp != 0) {
-    if (exp & 1)
+    if (exp & 1) {
       res = (int128)res * base % mod;
+    }
     base = (int128)base * base % mod;
     exp >>= 1;
   }
@@ -45,13 +45,15 @@ long powmod(long base, long exp, long mod) {
 int check_composite(long n, long a, long d, int s) {
   long x = powmod(a, d, n);
 
-  if (x == 1 || x == n - 1)
+  if (x == 1 || x == n - 1) {
     return 0;
+  }
 
   for (int r = 1; r < s; r++) {
     x = (int128)x * x % n;
-    if (x == n - 1)
+    if (x == n - 1) {
       return 0;
+    }
   }
 
   return 1;
@@ -61,6 +63,10 @@ const long primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
 const int primec = sizeof primes / sizeof primes[0];
 
 int miller_rabin(long n) {
+  if (n == 1) {
+    return 0;
+  }
+
   int r = ctz(n - 1);
   long d = (n - 1) >> r;
 
@@ -75,19 +81,16 @@ int miller_rabin(long n) {
 
 // pollard rho algorithm
 long pollard_rho(long n) {
-  if (miller_rabin(n)) {
-    return n;
-  }
-
   long x = 2, y = 2, z = 1;
 
   while (z) {
     y = x;
     for (int i = 0; i < z; ++i) {
       x = (x * x + 1) % n;
-      long factor = gcd(abs(x - y), n);
-      if (factor > 1)
+      long factor = gcd(labs(x - y), n);
+      if (factor > 1) {
         return factor;
+      }
     }
     z <<= 1;
   }
@@ -105,90 +108,90 @@ void sort(int len, long arr[len]) {
   }
 }
 
-int main(int argc, char *argv[argc]) {
-  for (int index = 1; index < argc; ++index) {
-    long n;
-    sscanf(argv[index], "%ld", &n);
+long parse(char argv[]) {
+  while (argv[0] == '0') {
+    argv++;
+  }
 
-    // check valid input
-    char buffer[100];
-    sprintf(buffer, "%ld", n);
+  char *end = NULL;
+  long n = strtol(argv, &end, 10);
 
-    // remove leading zeros from number
-    while (argv[index][0] == '0')
-      argv[index]++;
+  if (*end != '\0') {
+    printf("`%s`: invalid digit `%c`\n", argv, *end);
+    return -1;
+  }
 
-    if (strcmp(buffer, argv[index]) != 0) {
-      printf("`%s`: ", argv[index]);
+  if (n == LONG_MAX) {
+    printf("`%s`: overflows 64 bits\n", argv);
+    return -1;
+  }
 
-      for (int i = 0; argv[index][i] != 0; i++) {
-        char c = argv[index][i];
-        if (!('0' <= c && c <= '9')) {
-          printf("invalid digit `%c`\n", c);
-          goto end;
-        }
-      }
+  if (n < 1) {
+    printf("%ld:\n", n);
+    return -1;
+  }
 
-      printf("overflows 64-bits\n");
+  return n;
+}
 
-    end:
-      continue;
-    }
+int factor(long n, long factors[]) {
+  int len = 0;
 
-    printf("%ld: ", n);
+  if (miller_rabin(n)) {
+    factors[len++] = n;
+    return len;
+  }
 
-    // check input is >= 1
-    if (n < 1) {
-      printf("input must be > 0\n");
-      continue;
-    }
+  for (int i = 0; i < ctz(n); i++) {
+    factors[len++] = 2;
+  }
 
-    // skip primes
-    if (miller_rabin(n)) {
-      printf("%ld\n", n);
-      continue;
-    }
+  n >>= ctz(n);
 
-    // remove trivial factors of 2
-    int z = ctz(n);
-    n >>= z;
+  int limit = log(n) * log(n) * log(n);
 
-    for (int i = 0; i < z; ++i) {
-      printf("2 ");
-    }
-
-    // remove trivial factors up to log(n)**3
-    int limit = log(n) * log(n) * log(n);
-
-    for (long f = 3; f < limit && n > 1; f += 2) {
-      while (n % f == 0) {
-        n /= f;
-        printf("%ld ", f);
-
-        if (miller_rabin(n)) {
-          printf("%ld", n);
-          n = 1;
-        }
-      }
-    }
-
-    // find all other factors
-    long factors[100];
-    int len = 0;
-
-    while (n != 1) {
-      long f = pollard_rho(n);
+  for (long f = 3; f <= limit && n > f; f += 2) {
+    while (n % f == 0) {
       n /= f;
       factors[len++] = f;
+
+      if (miller_rabin(n)) {
+        factors[len++] = n;
+        return len;
+      }
+    }
+  }
+
+  while (n != 1) {
+    long f = pollard_rho(n);
+    factors[len++] = f;
+    n /= f;
+
+    if (miller_rabin(n)) {
+      factors[len++] = n;
+      return len;
+    }
+  }
+
+  return len;
+}
+
+int main(int argc, char *argv[argc]) {
+  for (int index = 1; index < argc; ++index) {
+    long n = parse(argv[index]);
+
+    if (n == -1) {
+      continue;
     }
 
-    // display factors in ascending order
+    long factors[100];
+    int len = factor(n, factors);
     sort(len, factors);
 
+    printf("%ld: ", n);
     for (int i = 0; i < len; i++) {
       printf("%ld ", factors[i]);
     }
-
     printf("\n");
   }
 
