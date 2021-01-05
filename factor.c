@@ -79,14 +79,13 @@ int miller_rabin(long n) {
   return 1;
 }
 
-// pollard rho algorithm
 long pollard_rho(long n) {
   long x = 2, y = 2, z = 1;
 
   while (z) {
     y = x;
     for (int i = 0; i < z; ++i) {
-      x = (x * x + 1) % n;
+      x = ((int128)x * x + 1) % n;
       long factor = gcd(labs(x - y), n);
       if (factor > 1) {
         return factor;
