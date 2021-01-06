@@ -25,3 +25,9 @@ make -B
 
 [add factor.exe to system path]
 ```
+
+**Benchmarks:**
+Benchmarks were recorded using the linux `time` command, using 10 random numbers in the range (1,2**63).
+
+- unix factor:  `0.00s user 0.00s system 79% cpu 0.005 total`
+- llxor factor: `0.01s user 0.00s system 97% cpu 0.009 total`
