@@ -12,12 +12,12 @@ For an integer input n, the program;
 - sorts the full list of factors using [insertion sort](https://en.wikipedia.org/wiki/Insertion_sort),
 - and finally, displays the factors to the terminal.
 
-**Usage**:
+**Usage:**
 ```
 factor.exe [list of numbers]
 ```
 
-**Installation**:
+**Installation:**
 ```
 git clone https://github.com/llxor/factor
 cd factor
@@ -27,7 +27,9 @@ make -B
 ```
 
 **Benchmarks:**
+```
 Benchmarks were recorded using the linux `time` command, using 10 random numbers in the range (1,2**63).
 
-- unix factor:  `0.00s user 0.00s system 79% cpu 0.005 total`
-- llxor factor: `0.01s user 0.00s system 97% cpu 0.009 total`
+unix factor:  `0.00s user 0.00s system 79% cpu 0.005 total`
+llxor factor: `0.01s user 0.00s system 97% cpu 0.009 total`
+```
