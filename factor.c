@@ -1,26 +1,24 @@
-#import <limits.h>
-#import <stdio.h>
-#import <stdlib.h>
-#import <string.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 inline long clz(long v) { return __builtin_clzll(v); }
 inline long ctz(long v) { return __builtin_ctzll(v); }
 inline long log(long v) { return 64 - clz(v); }
-inline long max(long x, long y) { return x ^ ((x ^ y) & -(x < y)); }
-inline long min(long x, long y) { return y ^ ((x ^ y) & -(x < y)); }
 
 long gcd(long u, long v) {
   if (u == 0) return v;
   if (v == 0) return u;
 
-  long w, shift = ctz(u | v);
+  long shift = ctz(u | v);
   u >>= ctz(u);
 
   while (v) {
     v >>= ctz(v);
-    w = max(u, v);
-    u = min(u, v);
-    v = w - u;
+    v -= u;
+    u -= v & -(v < 0);
+    v = labs(v);
   }
 
   return u << shift;
