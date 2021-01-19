@@ -1,5 +1,2 @@
-CC = clang -std=c++98
-CFLAGS = -O3 -s
-
-default:; clang factor.cc -o factor.exe $(CFLAGS)
+default:; clang factor.cc -o factor.exe -O3 -s
 format:; clang-format -i factor.cc
