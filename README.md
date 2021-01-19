@@ -17,8 +17,8 @@ make -B
 
 **Benchmark:**
 ```
-CPU: Intel m3-8100Y (using BMI1)
-DATA: 100 uniformly distributed ints ∈ (0, 2**31)
+CPU: Intel m3-8100Y (using BMI)
+DATA: 100 uniformly distributed ints ∈ (0, 2^31)
 ```
 
 **Algorithm:**
