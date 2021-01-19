@@ -1,5 +1,5 @@
-CC = clang
-CFLAGS = -O3 -s -fno-builtin
+CC = clang -std=c++98
+CFLAGS = -O3 -s
 
-default:; clang factor.c -o factor.exe $(CFLAGS)
-format:; clang-format -i factor.c
+default:; clang factor.cc -o factor.exe $(CFLAGS)
+format:; clang-format -i factor.cc
