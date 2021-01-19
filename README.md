@@ -1,4 +1,4 @@
-## Factor
+## factor
 This project is a recreation of the [factor command on the linux terminal](https://en.wikipedia.org/wiki/Factor_(Unix)), valid for 32 bit integers. It reduces input numbers into its [prime factors](https://en.wikipedia.org/wiki/Integer_factorization#Prime_decomposition). The average time spent factoring each number is **3.70μs** (see benchmark details below).
 
 **Usage:**
