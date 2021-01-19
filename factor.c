@@ -17,7 +17,7 @@ long gcd(long u, long v) {
   while (v) {
     v >>= ctz(v);
     v -= u;
-    u -= v & -(v < 0);
+    u += v & -(v < 0);
     v = labs(v);
   }
 
