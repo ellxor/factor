@@ -130,6 +130,7 @@ int pollard_rho(int n) {
         x = ((uint64_t)x * x + 3) % n;
         g = gcd(abs(x - y), n);
       }
+      return g;
     }
   }
 
