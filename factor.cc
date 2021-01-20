@@ -160,7 +160,7 @@ void factor(int n) {
   }
 
   // find non-trivial factors
-  while (!prime(n)) {
+  while (n != 1 && !prime(n)) {
     int i = pollard_rho(n);
     printf("%d ", i);
     n /= i;
