@@ -1,8 +1,8 @@
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
 #include <immintrin.h>
-#include <stdint.h>
 
 uint16_t bases[256] = {
     0x3ce7, 0x07e2, 0x00a6, 0x1d05, 0x1f80, 0x3ead, 0x2907, 0x112f, 0x079d,
@@ -54,6 +54,8 @@ int prime(int n) {
   if (n < 121) {
     return n > 1;
   }
+
+  uint x = 4;
 
   // generate hash of n, to get the base
   uint64_t h = n, v = 1;
