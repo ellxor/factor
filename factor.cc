@@ -55,8 +55,6 @@ int prime(int n) {
     return n > 1;
   }
 
-  uint x = 4;
-
   // generate hash of n, to get the base
   uint64_t h = n, v = 1;
   h = ((h >> 16) ^ h) * 0x45d9f3b;
