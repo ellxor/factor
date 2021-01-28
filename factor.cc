@@ -36,6 +36,9 @@ uint16_t bases[256] = {
     0x2c51, 0x019c, 0x0617, 0x00c2,
 };
 
+// count trailing zeros (factors of 2)
+int ctz(int x) { return _tzcnt_u32(x); }
+
 // deterministic miller-rabin test using only
 // one base generated from a hash table
 
@@ -65,7 +68,7 @@ int prime(int n) {
   // perform a single determininstic
   // round of miller_rabin test
   // n = d * 2^s + 1
-  int s = _tzcnt_u32(n - 1), d = (n - 1) >> s;
+  int s = ctz(n - 1), d = (n - 1) >> s;
 
   // compute v = h^d (mod n)
   for (; d; d >>= 1) {
@@ -97,11 +100,11 @@ int gcd(int u, int v) {
   if (v == 0)
     return u;
 
-  int shift = _tzcnt_u32(u | v);
-  u >>= _tzcnt_u32(u);
+  int shift = ctz(u | v);
+  u >>= ctz(u);
 
   while (v) {
-    v >>= _tzcnt_u32(v);
+    v >>= ctz(v);
     v -= u;
     u += v & -(v < 0);
     v = abs(v);
@@ -145,7 +148,7 @@ void factor(int n) {
   clock_t t = clock();
 
   // remove factors of 2
-  int zeros = _tzcnt_u32(n);
+  int zeros = ctz(n);
   n >>= zeros;
 
   for (int i = 0; i < zeros; i++) {
