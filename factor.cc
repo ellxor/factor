@@ -115,7 +115,7 @@ int gcd(int u, int v) {
 
 // Pollard Rho Algorithm using Brent's cycle
 // detection algorithm, and using backtracking
-// to omit unecessary GCD computations
+// to omit unnecessary GCD computations
 
 int pollard_rho(int n) {
   int x = 2, q = 1;
