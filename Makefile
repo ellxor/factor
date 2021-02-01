@@ -1,2 +1,7 @@
-default:; gcc factor.cc -o factor.exe -O3 -s
-format:; clang-format -i factor.cc
+CC = gcc
+CFLAGS = -O3 -s
+DEBUG = -Wall -Wextra -Wpedantic
+ARCH = -mbmi
+
+default:; gcc factor.c -o factor.exe $(CFLAGS) $(DEBUG) $(ARCH)
+format:; indent *.c -linux && rm *~
