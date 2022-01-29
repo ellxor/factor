@@ -130,7 +130,7 @@ int pollard_rho(int n)
 
 		for (int i = 0; i < r; i++) {
 			x = ((uint64_t) x * x + 3) % n;
-			q = (uint64_t) q *abs(x - y) % n;
+			q = (uint64_t) q * abs(x - y) % n;
 		}
 
 		if ((g = gcd(q, n)) != 1) {
