@@ -8,7 +8,7 @@ factor.exe [list of numbers]
 
 **Installation:**
 ```
-git clone https://github.com/llxor/factor.git
+git clone https://github.com/ellxor/factor.git
 cd factor
 make -B
 
